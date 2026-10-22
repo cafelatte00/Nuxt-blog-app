@@ -1,5 +1,3 @@
-import IdDelete from '../api/posts/[id].delete'
-
 export const posts: Post[] = [
   {
     id: 1,
@@ -70,4 +68,18 @@ export const updatePost = (
   if (!post) return undefined
   Object.assign(post, input)
   return post
+}
+
+//create
+export const createPost = (
+  input: Pick<Post, 'title' | 'summary' | 'body' | 'category' | 'image'>
+): Post => {
+  const newPost: Post = {
+    ...input,
+    id: Math.max(0, ...posts.map((p) => p.id)) + 1,
+    likes: 0,
+    createdAt: new Date().toISOString().slice(0, 10)
+  }
+  posts.push(newPost)
+  return newPost
 }
